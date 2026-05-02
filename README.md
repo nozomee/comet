@@ -1,4 +1,7 @@
-# comet
+
+<img width="1277" height="725" alt="image" src="https://github.com/user-attachments/assets/803cf080-8d1b-4714-8857-be616e2cf8e9" />
+
+<br>
 
 > Turn boring screenshots into beautiful visuals.
 
