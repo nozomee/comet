@@ -1,3 +1,8 @@
 {
-  "installCommand": "pnpm install"
+  "installCommand": "pnpm install",
+  "buildEnvironmentVars": {
+    "npm_config_registry": "https://registry.npmjs.org/",
+    "PNPM_AUDIT": "false",
+    "PNPM_UPDATE_CHECK": "false"
+  }
 }
