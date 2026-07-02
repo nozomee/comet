@@ -1,3 +1,5 @@
 {
-  "installCommand": "npx pnpm@10.33.2 install"
+  "installCommand": "npx pnpm@10.33.2 install",
+  "buildCommand": "pnpm run build",
+  "outputDirectory": "artifacts/snapester/dist/public"
 }
