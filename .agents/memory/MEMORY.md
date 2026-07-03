@@ -1,0 +1,1 @@
+- [Vercel/v0 import migrations](vercel-migration.md) — some imports are already Vite+React (not Next.js); check before assuming a framework conversion is needed.

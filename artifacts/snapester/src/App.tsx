@@ -133,7 +133,7 @@ function Navbar() {
         <div className="hidden md:flex items-center gap-6 text-sm font-medium" style={{ color: "rgba(255,255,255,0.6)" }}>
           <a href="#editor-preview" className="hover:text-white transition-colors">Editor</a>
           <a href="#workflow" className="hover:text-white transition-colors">How it works</a>
-          <a href="#pricing" className="hover:text-white transition-colors">Pricing</a>
+          <a href="#open-source" className="hover:text-white transition-colors">Open Source</a>
           <GitHubButton />
         </div>
       </div>
@@ -161,7 +161,7 @@ function Footer() {
           <ul className="space-y-3 text-sm" style={{ color: "rgba(255,255,255,0.5)" }}>
             <li><a href="#features" className="hover:text-white transition-colors">Features</a></li>
             <li><a href="#showcase" className="hover:text-white transition-colors">Showcase</a></li>
-            <li><a href="#pricing" className="hover:text-white transition-colors">Pricing</a></li>
+            <li><a href="#open-source" className="hover:text-white transition-colors">Open Source</a></li>
           </ul>
         </div>
         <div>
@@ -387,43 +387,40 @@ function Landing() {
           </div>
         </div>
       </section>
-      {/* Pricing */}
-      <section id="pricing" className="py-24 rounded-t-[2.5rem] -mt-6" style={{ background: BG }}>
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <span className="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-5 border" style={{ borderColor: "rgba(245,197,24,0.3)", color: Y }}>Pricing</span>
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4 text-white">
-              Simple, transparent <span className="font-serif italic font-normal" style={{ color: Y }}>pricing</span>
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-            <div className="rounded-2xl p-8 border flex flex-col" style={{ background: "rgba(255,255,255,0.03)", borderColor: "rgba(255,255,255,0.08)" }}>
-              <h3 className="text-xl font-bold mb-2 text-white">Free</h3>
-              <div className="flex items-baseline gap-1 mb-7">
-                <span className="text-4xl font-bold text-white">$0</span>
-                <span className="text-sm" style={{ color: "rgba(255,255,255,0.4)" }}>/month</span>
-              </div>
-              <ul className="space-y-3 mb-8 flex-1 text-sm" style={{ color: "rgba(255,255,255,0.7)" }}>
-                {["5 exports/day", "Basic backgrounds", "Standard export quality", "Web editor access"].map((f) => (
-                  <li key={f} className="flex items-center gap-2"><Check size={14} className="text-green-400" /> {f}</li>
-                ))}
-              </ul>
-              <Link href="/editor" className="block w-full py-3 text-center rounded-xl font-bold border-2 text-white transition-colors hover:bg-white/5 text-sm" style={{ borderColor: "rgba(255,255,255,0.15)" }}>Start for free</Link>
-            </div>
-            <div className="rounded-2xl p-8 border-2 flex flex-col relative shadow-2xl" style={{ background: "rgba(245,197,24,0.06)", borderColor: Y, boxShadow: "0 0 40px rgba(245,197,24,0.15)" }}>
-              <div className="absolute top-0 right-8 -translate-y-1/2 px-3 py-1 rounded-full text-xs font-bold shadow-lg" style={{ background: Y, color: "#000" }}>Most Popular</div>
-              <h3 className="text-xl font-bold mb-2" style={{ color: Y }}>Pro</h3>
-              <div className="flex items-baseline gap-1 mb-7">
-                <span className="text-4xl font-bold text-white">$9</span>
-                <span className="text-sm" style={{ color: "rgba(255,255,255,0.4)" }}>/month</span>
-              </div>
-              <ul className="space-y-3 mb-8 flex-1 text-sm text-white/80 font-medium">
-                {["Unlimited exports", "Premium backgrounds & gradients", "3x resolution export", "Custom frames & devices", "Priority support", "Remove watermark"].map((f) => (
-                  <li key={f} className="flex items-center gap-2"><Check size={14} style={{ color: Y }} /> {f}</li>
-                ))}
-              </ul>
-              <button className="w-full py-3 rounded-xl font-bold transition-colors shadow-lg text-sm" style={{ background: Y, color: "#000" }}>Upgrade to Pro</button>
-            </div>
+      {/* Open Source */}
+      <section id="open-source" className="py-24 rounded-t-[2.5rem] -mt-6" style={{ background: BG }}>
+        <div className="max-w-3xl mx-auto px-6 text-center">
+          <span className="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-5 border" style={{ borderColor: "rgba(245,197,24,0.3)", color: Y }}>Open Source</span>
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4 text-white">
+            Free for everyone, <span className="font-serif italic font-normal" style={{ color: Y }}>forever</span>
+          </h2>
+          <p className="text-base md:text-lg max-w-xl mx-auto mb-8 font-light leading-relaxed" style={{ color: "rgba(255,255,255,0.6)" }}>
+            comet is 100% open source and completely free — no paywalls, no subscriptions, no limits.
+            We believe great tools should be accessible to everyone. If you'd like to help make it even
+            better, contributions are always welcome!
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a
+              href={GITHUB_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-7 py-3.5 rounded-full font-bold text-base transition-all shadow-xl hover:-translate-y-1"
+              style={{ background: Y, color: "#000", boxShadow: "0 8px 30px rgba(245,197,24,0.35)" }}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/>
+              </svg>
+              Star on GitHub
+            </a>
+            <a
+              href={`${GITHUB_URL}/blob/main/CONTRIBUTING.md`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-7 py-3.5 rounded-full font-bold text-base transition-all hover:-translate-y-1 border"
+              style={{ background: "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.15)", color: "#fff" }}
+            >
+              <Wand2 size={20} style={{ color: Y }} /> Contribute
+            </a>
           </div>
         </div>
       </section>

@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Snapester"
+version = "1.0.0"
+id = "artifacts/snapester"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20406
+
+[services.development]
+run = "pnpm --filter @workspace/snapester run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/snapester", "run", "build" ]
+publicDir = "artifacts/snapester/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20406"
+BASE_PATH = "/"
