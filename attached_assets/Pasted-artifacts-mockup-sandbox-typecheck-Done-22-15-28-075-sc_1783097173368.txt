@@ -1,0 +1,35 @@
+artifacts/mockup-sandbox typecheck: Done
+22:15:28.075 
+scripts typecheck$ tsc -p tsconfig.json --noEmit
+22:15:29.453 
+scripts typecheck: Done
+22:15:30.243 
+artifacts/snapester typecheck: Done
+22:15:30.589 
+Scope: 8 of 9 workspace projects
+22:15:30.596 
+artifacts/mockup-sandbox build$ vite build
+22:15:30.923 
+artifacts/mockup-sandbox build: failed to load config from /vercel/path0/artifacts/mockup-sandbox/vite.config.ts
+22:15:30.925 
+artifacts/mockup-sandbox build: error during build:
+22:15:30.926 
+artifacts/mockup-sandbox build: Error: PORT environment variable is required but was not provided.
+22:15:30.927 
+artifacts/mockup-sandbox build:     at file:///vercel/path0/artifacts/mockup-sandbox/node_modules/.vite-temp/vite.config.ts.timestamp-1783097130788-e774e09f40f6a8.mjs:145:9
+22:15:30.929 
+artifacts/mockup-sandbox build:     at ModuleJob.run (node:internal/modules/esm/module_job:437:25)
+22:15:30.930 
+artifacts/mockup-sandbox build:     at async node:internal/modules/esm/loader:639:26
+22:15:30.930 
+artifacts/mockup-sandbox build:     at async loadConfigFromBundledFile (file:///vercel/path0/node_modules/.pnpm/vite@7.3.5_@types+node@25.9.4_jiti@2.7.0_lightningcss@1.32.0_tsx@4.22.4_yaml@2.9.0/node_modules/vite/dist/node/chunks/config.js:35996:12)
+22:15:30.931 
+artifacts/mockup-sandbox build:     at async bundleAndLoadConfigFile (file:///vercel/path0/node_modules/.pnpm/vite@7.3.5_@types+node@25.9.4_jiti@2.7.0_lightningcss@1.32.0_tsx@4.22.4_yaml@2.9.0/node_modules/vite/dist/node/chunks/config.js:35884:17)
+22:15:30.931 
+artifacts/mockup-sandbox build:     at async loadConfigFromFile (file:///vercel/path0/node_modules/.pnpm/vite@7.3.5_@types+node@25.9.4_jiti@2.7.0_lightningcss@1.32.0_tsx@4.22.4_yaml@2.9.0/node_modules/vite/dist/node/chunks/config.js:35851:42)
+22:15:30.932 
+artifacts/mockup-sandbox build:     at async resolveConfig (file:///vercel/path0/node_modules/.pnpm/vite@7.3.5_@types+node@25.9.4_jiti@2.7.0_lightningcss@1.32.0_tsx@4.22.4_yaml@2.9.0/node_modules/vite/dist/node/chunks/config.js:35500:22)
+22:15:30.933 
+artifacts/mockup-sandbox build:     at async createBuilder (file:///vercel/path0/node_modules/.pnpm/vite@7.3.5_@types+node@25.9.4_jiti@2.7.0_lightningcss@1.32.0_tsx@4.22.4_yaml@2.9.0/node_modules/vite/dist/node/chunks/config.js:33955:19)
+22:15:30.933 
+artifacts/mockup-sandbox build:     at async CAC.<anonymous> (file:///vercel/path0/node_modules/.pnpm/vite@7.3.5_@types+node@25.9.4_jiti@2.7.0_lightningcss@1.32.0_tsx@4.22.4_yaml@2.9.0/node_modules/vite/dist/node/cli.js:629:10)
