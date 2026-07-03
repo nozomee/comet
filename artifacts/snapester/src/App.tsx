@@ -11,7 +11,6 @@ import {
   Camera, Wand2, Upload, Download, Copy, Trash2, Check,
   ChevronDown, RotateCcw, ZoomIn, ZoomOut, Move, X, Maximize2,
 } from "lucide-react";
-import html2canvas from "html2canvas-pro";
 
 const queryClient = new QueryClient();
 const Y = "#f5c518";
@@ -561,6 +560,7 @@ function Editor() {
     if (!exportRef.current || isExporting) return;
     setIsExporting(true);
     try {
+      const { default: html2canvas } = await import("html2canvas-pro");
       const canvas = await html2canvas(exportRef.current, {
         scale: exportRes,
         backgroundColor: null,
