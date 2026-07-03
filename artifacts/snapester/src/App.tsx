@@ -5,10 +5,10 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import {
-  Camera, Wand2, Chrome, Upload, Download, Copy, Trash2, Check,
+  Camera, Wand2, Upload, Download, Copy, Trash2, Check,
   ChevronDown, RotateCcw, ZoomIn, ZoomOut, Move, X, Maximize2,
 } from "lucide-react";
-import html2canvas from "html2canvas";
+import html2canvas from "html2canvas-pro";
 
 const queryClient = new QueryClient();
 const Y = "#f5c518";
@@ -264,9 +264,9 @@ function Landing() {
             Upload any screenshot and transform it into a polished, share-worthy visual in seconds. No design skills needed.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
-            <button className="w-full sm:w-auto flex items-center justify-center gap-2 px-7 py-3.5 rounded-full font-bold text-base transition-all shadow-xl hover:-translate-y-1" style={{ background: Y, color: "#000", boxShadow: "0 8px 30px rgba(245,197,24,0.35)" }}>
-              <Chrome size={20} /> Add to Chrome
-            </button>
+            <Link href="/editor" className="w-full sm:w-auto flex items-center justify-center gap-2 px-7 py-3.5 rounded-full font-bold text-base transition-all shadow-xl hover:-translate-y-1" style={{ background: Y, color: "#000", boxShadow: "0 8px 30px rgba(245,197,24,0.35)" }}>
+              <Wand2 size={20} /> Open Editor
+            </Link>
             <a href="#editor-preview" className="w-full sm:w-auto flex items-center justify-center gap-2 px-7 py-3.5 rounded-full font-bold text-base transition-all hover:-translate-y-1 border" style={{ background: "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.15)", color: "#fff" }}>
               <Wand2 size={20} style={{ color: Y }} /> Try it now ↓
             </a>
