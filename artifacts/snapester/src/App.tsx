@@ -1,4 +1,7 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
+import HowItWorks from "@/components/HowItWorks";
+import Marquee from "@/components/Marquee";
+import AddToChromeModal from "@/components/AddToChromeModal";
 import { Switch, Route, Router as WouterRouter, Link } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -189,6 +192,7 @@ function Footer() {
 function Landing() {
   const editorSrc = `${import.meta.env.BASE_URL}editor`.replace(/\/\//g, "/");
   const [fsPhase, setFsPhase] = useState<"closed" | "entering" | "visible" | "leaving">("closed");
+  const [chromeModalOpen, setChromeModalOpen] = useState(false);
 
   const openFullscreen = () => {
     setFsPhase("entering");
@@ -264,9 +268,21 @@ function Landing() {
             Upload any screenshot and transform it into a polished, share-worthy visual in seconds. No design skills needed.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
-            <Link href="/editor" className="w-full sm:w-auto flex items-center justify-center gap-2 px-7 py-3.5 rounded-full font-bold text-base transition-all shadow-xl hover:-translate-y-1" style={{ background: Y, color: "#000", boxShadow: "0 8px 30px rgba(245,197,24,0.35)" }}>
-              <Wand2 size={20} /> Open Editor
-            </Link>
+            <button
+              onClick={() => setChromeModalOpen(true)}
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-7 py-3.5 rounded-full font-bold text-base transition-all shadow-xl hover:-translate-y-1"
+              style={{ background: Y, color: "#000", boxShadow: "0 8px 30px rgba(245,197,24,0.35)" }}
+            >
+              {/* Chrome logo */}
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" fill="#fff" />
+                <circle cx="12" cy="12" r="4" fill="#1967D2" />
+                <path d="M12 8h8.66a10 10 0 0 0-8.66-5z" fill="#EA4335" />
+                <path d="M3.34 8A10 10 0 0 0 12 22V16a4 4 0 0 1-3.46-2z" fill="#34A853" />
+                <path d="M20.66 8H12l-3.46 6A4 4 0 0 0 12 16a4 4 0 0 0 3.66-2.4z" fill="#FBBC04" />
+              </svg>
+              Add to Chrome
+            </button>
             <a href="#editor-preview" className="w-full sm:w-auto flex items-center justify-center gap-2 px-7 py-3.5 rounded-full font-bold text-base transition-all hover:-translate-y-1 border" style={{ background: "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.15)", color: "#fff" }}>
               <Wand2 size={20} style={{ color: Y }} /> Try it now ↓
             </a>
@@ -308,86 +324,10 @@ function Landing() {
         </div>
       </section>
 
-      {/* Workflow Diagram */}
-      <section id="workflow" className="py-24 px-6" style={{ background: "#050505" }}>
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <span className="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4 border" style={{ borderColor: "rgba(245,197,24,0.3)", color: Y }}>How it works</span>
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white">
-              From raw screenshot to{" "}
-              <span className="font-serif italic font-normal" style={{ color: Y }}>polished visual</span>
-            </h2>
-          </div>
-
-          {/* Flow diagram */}
-          <div className="relative">
-            {/* Connecting line */}
-            <div className="hidden md:block absolute top-[52px] left-[calc(10%+40px)] right-[calc(10%+40px)] h-px" style={{ background: `repeating-linear-gradient(90deg, ${Y} 0, ${Y} 8px, transparent 8px, transparent 18px)`, opacity: 0.3 }} />
-
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-6 items-start">
-              {[
-                {
-                  n: "01",
-                  icon: <Upload size={22} />,
-                  title: "Upload",
-                  desc: "Drag & drop or paste your screenshot directly into the editor.",
-                  tags: ["PNG", "JPG", "WebP", "Clipboard"],
-                },
-                {
-                  n: "02",
-                  icon: (
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>
-                  ),
-                  title: "Background",
-                  desc: "Pick from 12 gradient presets or solid colors to set the scene.",
-                  tags: ["Gradients", "Solids", "Custom"],
-                },
-                {
-                  n: "03",
-                  icon: <Wand2 size={22} />,
-                  title: "Style",
-                  desc: "Add a window frame, dial in shadow depth, and tweak corner radius.",
-                  tags: ["macOS", "Browser", "Arc", "Terminal", "iPhone"],
-                },
-                {
-                  n: "04",
-                  icon: <Move size={22} />,
-                  title: "Dimension",
-                  desc: "Lock to a canvas size — Instagram, Twitter, 16:9, square, and more.",
-                  tags: ["Instagram", "Twitter", "16:9", "Square"],
-                },
-                {
-                  n: "05",
-                  icon: <Download size={22} />,
-                  title: "Export",
-                  desc: "Download at 1x, 2x, or 3x resolution, or copy straight to clipboard.",
-                  tags: ["PNG", "2x / 3x", "Clipboard"],
-                },
-              ].map((step, i) => (
-                <div key={step.n} className="relative flex flex-col items-center text-center">
-                  {/* Arrow between steps (mobile vertical) */}
-                  {i < 4 && (
-                    <div className="md:hidden w-px h-6 my-1 self-center" style={{ background: `repeating-linear-gradient(180deg, ${Y} 0, ${Y} 4px, transparent 4px, transparent 10px)`, opacity: 0.4 }} />
-                  )}
-                  {/* Icon circle */}
-                  <div className="w-[72px] h-[72px] rounded-full flex items-center justify-center mb-5 border-2 relative z-10" style={{ background: "#0a0a0a", borderColor: "rgba(245,197,24,0.35)", color: Y }}>
-                    {step.icon}
-                    <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full text-[10px] font-bold flex items-center justify-center" style={{ background: Y, color: "#000" }}>{i + 1}</span>
-                  </div>
-                  <h3 className="text-base font-bold mb-2 text-white">{step.title}</h3>
-                  <p className="text-xs leading-relaxed mb-3" style={{ color: "rgba(255,255,255,0.5)" }}>{step.desc}</p>
-                  <div className="flex flex-wrap justify-center gap-1">
-                    {step.tags.map((tag) => (
-                      <span key={tag} className="text-[10px] px-2 py-0.5 rounded-full font-medium" style={{ background: "rgba(245,197,24,0.08)", color: "rgba(245,197,24,0.7)", border: "1px solid rgba(245,197,24,0.15)" }}>{tag}</span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-      {/* Open Source */}
+      <Marquee />
+      <HowItWorks />
+      <AddToChromeModal open={chromeModalOpen} onClose={() => setChromeModalOpen(false)} />
+            {/* Open Source */}
       <section id="open-source" className="py-24 rounded-t-[2.5rem] -mt-6" style={{ background: BG }}>
         <div className="max-w-3xl mx-auto px-6 text-center">
           <span className="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-5 border" style={{ borderColor: "rgba(245,197,24,0.3)", color: Y }}>Open Source</span>
@@ -582,6 +522,17 @@ function Editor() {
 
   const exportRef = useRef<HTMLDivElement>(null);
   const dragState = useRef<{ startX: number; startY: number; ox: number; oy: number } | null>(null);
+
+  // Listen for screenshots injected by the comet Chrome extension content bridge
+  useEffect(() => {
+    const handler = (e: MessageEvent) => {
+      if (e.data?.type === "COMET_SCREENSHOT" && typeof e.data.dataUrl === "string") {
+        setImage(e.data.dataUrl);
+      }
+    };
+    window.addEventListener("message", handler);
+    return () => window.removeEventListener("message", handler);
+  }, []);
 
   const isFree = dimension.id === "free";
 
