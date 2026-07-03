@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>comet Settings</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      background: #0a0a0a;
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 48px 24px;
+    }
+    .card {
+      width: 100%;
+      max-width: 480px;
+      background: #111;
+      border: 1px solid rgba(245,197,24,0.18);
+      border-radius: 16px;
+      padding: 32px;
+    }
+    .header { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
+    .logo {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: #0a0a0a; border: 1.5px solid rgba(245,197,24,0.35);
+      display: flex; align-items: center; justify-content: center;
+    }
+    h1 { font-size: 18px; font-weight: 700; }
+    .sub { font-size: 12px; color: rgba(255,255,255,0.4); }
+    label { display: block; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.6); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.06em; }
+    input {
+      width: 100%; padding: 10px 14px; border-radius: 8px;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
+      color: #fff; font-size: 13px; outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus { border-color: rgba(245,197,24,0.5); }
+    .hint { font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 6px; }
+    button {
+      margin-top: 24px; width: 100%; padding: 11px;
+      background: #f5c518; color: #000; border: none;
+      border-radius: 8px; font-size: 14px; font-weight: 700;
+      cursor: pointer; transition: opacity 0.15s;
+    }
+    button:hover { opacity: 0.88; }
+    .toast {
+      margin-top: 14px; font-size: 12px; text-align: center;
+      color: #4ade80; opacity: 0; transition: opacity 0.3s;
+    }
+    .toast.show { opacity: 1; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">
+      <div class="logo">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2L9 9H2L7.5 13.5L5.5 21L12 17L18.5 21L16.5 13.5L22 9H15L12 2Z" fill="#f5c518"/>
+        </svg>
+      </div>
+      <div>
+        <h1>comet Settings</h1>
+        <div class="sub">Configure your extension</div>
+      </div>
+    </div>
+
+    <div>
+      <label for="editorUrl">Editor URL</label>
+      <input id="editorUrl" type="url" placeholder="https://your-app.replit.app/editor" />
+      <div class="hint">Paste the full URL of your comet editor page (including /editor). This is where captures will open.</div>
+    </div>
+
+    <button id="save">Save Settings</button>
+    <div class="toast" id="toast">✓ Settings saved!</div>
+  </div>
+
+  <script>
+    const input = document.getElementById('editorUrl');
+    const toast = document.getElementById('toast');
+
+    // Load saved URL
+    chrome.storage.sync.get({ editorUrl: '' }, ({ editorUrl }) => {
+      input.value = editorUrl;
+    });
+
+    document.getElementById('save').addEventListener('click', () => {
+      const url = input.value.trim();
+      chrome.storage.sync.set({ editorUrl: url }, () => {
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+      });
+    });
+  </script>
+</body>
+</html>
