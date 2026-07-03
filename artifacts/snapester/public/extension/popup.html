@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>comet</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      width: 300px;
+      background: #0a0a0a;
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      overflow: hidden;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 16px 12px;
+      border-bottom: 1px solid rgba(245,197,24,0.12);
+    }
+    .logo {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: #111;
+      border: 1.5px solid rgba(245,197,24,0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo svg { display: block; }
+    .brand { font-size: 15px; font-weight: 700; letter-spacing: -0.02em; }
+    .tagline { font-size: 10px; color: rgba(255,255,255,0.4); margin-top: 1px; }
+
+    /* Preview area */
+    .preview-wrap {
+      position: relative;
+      margin: 12px 16px 0;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(245,197,24,0.15);
+      background: #111;
+      height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .preview-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .preview-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.3);
+      font-size: 11px;
+    }
+    .preview-placeholder svg { opacity: 0.4; }
+    .preview-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(245,197,24,0.15);
+      border: 1px solid rgba(245,197,24,0.3);
+      color: #f5c518;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 99px;
+      letter-spacing: 0.05em;
+    }
+
+    /* Buttons */
+    .actions { padding: 12px 16px 8px; display: flex; flex-direction: column; gap: 7px; }
+
+    .btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: opacity 0.15s, transform 0.12s;
+    }
+    .btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn:active { transform: scale(0.97); }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+    .btn-primary { background: #f5c518; color: #000; }
+    .btn-secondary {
+      background: rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.8);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    /* Status */
+    .status {
+      font-size: 11px;
+      text-align: center;
+      padding: 6px 16px;
+      color: rgba(255,255,255,0.4);
+      min-height: 26px;
+    }
+    .status.success { color: #4ade80; }
+    .status.error { color: #f87171; }
+    .status.loading { color: #f5c518; }
+
+    /* Footer */
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 16px 12px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer a {
+      font-size: 10px;
+      color: rgba(255,255,255,0.3);
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .footer a:hover { color: rgba(245,197,24,0.7); }
+
+    /* Spinner */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(0,0,0,0.3);
+      border-top-color: #000;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="logo">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+        <path d="M12 2L9 9H2L7.5 13.5L5.5 21L12 17L18.5 21L16.5 13.5L22 9H15L12 2Z" fill="#f5c518"/>
+      </svg>
+    </div>
+    <div>
+      <div class="brand">comet</div>
+      <div class="tagline">Screenshot Beautifier</div>
+    </div>
+  </div>
+
+  <div class="preview-wrap" id="previewWrap">
+    <div class="preview-placeholder" id="placeholder">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="3" y="3" width="18" height="18" rx="2"/>
+        <circle cx="8.5" cy="8.5" r="1.5"/>
+        <path d="m21 15-5-5L5 21"/>
+      </svg>
+      <span>No capture yet</span>
+    </div>
+    <img id="previewImg" style="display:none" alt="Preview" />
+    <div class="preview-badge" id="previewBadge" style="display:none">CAPTURED</div>
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-primary" id="captureBtn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+        <circle cx="12" cy="13" r="4"/>
+      </svg>
+      Capture This Page
+    </button>
+    <button class="btn btn-secondary" id="openEditorBtn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+        <polyline points="15,3 21,3 21,9"/>
+        <line x1="10" y1="14" x2="21" y2="3"/>
+      </svg>
+      Open Editor
+    </button>
+  </div>
+
+  <div class="status" id="status">Capture the current tab to get started</div>
+
+  <div class="footer">
+    <a id="settingsLink">⚙ Settings</a>
+    <a href="https://github.com" target="_blank">GitHub</a>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
