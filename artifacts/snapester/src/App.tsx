@@ -275,13 +275,13 @@ function Landing() {
               className="w-full sm:w-auto flex items-center justify-center gap-2 px-7 py-3.5 rounded-full font-bold text-base transition-all shadow-xl hover:-translate-y-1"
               style={{ background: Y, color: "#000", boxShadow: "0 8px 30px rgba(245,197,24,0.35)" }}
             >
-              {/* Chrome logo */}
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="12" r="10" fill="#fff" />
-                <circle cx="12" cy="12" r="4" fill="#1967D2" />
-                <path d="M12 8h8.66a10 10 0 0 0-8.66-5z" fill="#EA4335" />
-                <path d="M3.34 8A10 10 0 0 0 12 22V16a4 4 0 0 1-3.46-2z" fill="#34A853" />
-                <path d="M20.66 8H12l-3.46 6A4 4 0 0 0 12 16a4 4 0 0 0 3.66-2.4z" fill="#FBBC04" />
+              {/* Chrome logo — monochrome black */}
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <circle cx="12" cy="12" r="4" />
+                <line x1="21.17" y1="8" x2="12" y2="8" />
+                <line x1="3.95" y1="6.06" x2="8.54" y2="14" />
+                <line x1="10.88" y1="21.94" x2="15.46" y2="14" />
               </svg>
               Add to Chrome
             </button>
