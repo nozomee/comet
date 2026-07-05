@@ -3,6 +3,7 @@ import HowItWorks from "@/components/HowItWorks";
 import Marquee from "@/components/Marquee";
 import AddToChromeModal from "@/components/AddToChromeModal";
 import AnnotationLayer, { Annotation } from "@/components/editor/AnnotationLayer";
+import NavMarquee from "@/components/NavMarquee";
 import { Switch, Route, Router as WouterRouter, Link } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -209,6 +210,7 @@ function Landing() {
   return (
     <div className="min-h-screen flex flex-col" style={{ background: BG, color: "#fff" }}>
       <Navbar />
+      <NavMarquee />
 
       {/* Hero */}
       <section className="pt-20 pb-14 px-6 overflow-hidden relative">
