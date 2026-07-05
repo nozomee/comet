@@ -960,21 +960,20 @@ function Editor() {
                   {/* Font size */}
                   {selectedAnn.type !== "arrow" && (
                     <div>
-                      <p className="text-[10px] uppercase tracking-wider mb-1.5" style={{ color: "rgba(255,255,255,0.35)" }}>Size</p>
-                      <div className="flex gap-1.5">
-                        {ANN_SIZES.map(s => (
-                          <button
-                            key={s}
-                            onClick={() => setAnnotations(a => a.map(x => x.id === selectedAnnId ? { ...x, fontSize: s } : x))}
-                            className="flex-1 py-1 rounded text-xs font-medium border transition-colors"
-                            style={{
-                              background: selectedAnn.fontSize === s ? "rgba(245,197,24,0.15)" : "transparent",
-                              borderColor: selectedAnn.fontSize === s ? Y : "rgba(255,255,255,0.1)",
-                              color: selectedAnn.fontSize === s ? Y : "rgba(255,255,255,0.5)",
-                            }}
-                          >{s}</button>
-                        ))}
+                      <div className="flex items-center justify-between mb-1.5">
+                        <p className="text-[10px] uppercase tracking-wider" style={{ color: "rgba(255,255,255,0.35)" }}>Size</p>
+                        <span className="text-xs font-mono px-2 py-0.5 rounded" style={{ background: "rgba(245,197,24,0.1)", color: Y }}>{selectedAnn.fontSize}px</span>
                       </div>
+                      <input
+                        type="range"
+                        min="10"
+                        max="72"
+                        step="1"
+                        value={selectedAnn.fontSize}
+                        onChange={(e) => setAnnotations(a => a.map(x => x.id === selectedAnnId ? { ...x, fontSize: Number(e.target.value) } : x))}
+                        className="w-full"
+                        style={{ accentColor: Y }}
+                      />
                     </div>
                   )}
 
