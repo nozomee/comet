@@ -4,6 +4,7 @@ import Marquee from "@/components/Marquee";
 import AddToChromeModal from "@/components/AddToChromeModal";
 import AnnotationLayer, { Annotation } from "@/components/editor/AnnotationLayer";
 import NavMarquee from "@/components/NavMarquee";
+import { FloatingSparkles, CometStreak, OrbitRings, CornerAccents, WaveDivider, FloatingGeoShapes, ScanLine } from "@/components/LandingSVGs";
 import { Switch, Route, Router as WouterRouter, Link } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -242,6 +243,11 @@ function Landing() {
       <section className="pt-20 pb-14 px-6 overflow-hidden relative">
         {/* Radial glow */}
         <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 80% 50% at 50% -10%, rgba(245,197,24,0.18), transparent)" }} />
+        <FloatingSparkles />
+        <CometStreak />
+        <OrbitRings />
+        <CornerAccents />
+        <ScanLine />
         {/* SVG decorative lines */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
           <defs>
@@ -356,12 +362,15 @@ function Landing() {
         </div>
       </section>
 
+      <WaveDivider />
       <Marquee />
       <HowItWorks />
       <AddToChromeModal open={chromeModalOpen} onClose={() => setChromeModalOpen(false)} />
             {/* Open Source */}
-      <section id="open-source" className="py-24 rounded-t-[2.5rem] -mt-6" style={{ background: BG }}>
-        <div className="max-w-3xl mx-auto px-6 text-center">
+      <WaveDivider flip />
+      <section id="open-source" className="py-24 rounded-t-[2.5rem] -mt-6 relative overflow-hidden" style={{ background: BG }}>
+        <FloatingGeoShapes />
+        <div className="max-w-3xl mx-auto px-6 text-center relative z-10">
           <span className="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-5 border" style={{ borderColor: "rgba(245,197,24,0.3)", color: Y }}>Open Source</span>
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4 text-white">
             Free for everyone, <span className="font-serif italic font-normal" style={{ color: Y }}>forever</span>
