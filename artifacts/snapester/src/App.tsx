@@ -2,6 +2,7 @@ import React, { useState, useRef, useCallback, useEffect } from "react";
 import HowItWorks from "@/components/HowItWorks";
 import Marquee from "@/components/Marquee";
 import AddToChromeModal from "@/components/AddToChromeModal";
+import AnnotationLayer, { Annotation } from "@/components/editor/AnnotationLayer";
 import { Switch, Route, Router as WouterRouter, Link } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -519,6 +520,27 @@ function Editor() {
   const [imgY, setImgY] = useState(0);
   const [imgScale, setImgScale] = useState(1);
 
+  const [annotations, setAnnotations]           = useState<Annotation[]>([]);
+  const [selectedAnnId, setSelectedAnnId]       = useState<string | null>(null);
+
+  const selectedAnn = annotations.find(a => a.id === selectedAnnId) ?? null;
+
+  const addAnnotation = (type: Annotation["type"]) => {
+    const id = crypto.randomUUID();
+    setAnnotations(prev => [...prev, {
+      id, type,
+      x: 50, y: 50,
+      text: type === "arrow" ? "" : type === "label" ? "Label" : "Caption",
+      color: "#f5c518",
+      fontSize: 18,
+      arrowDir: "right",
+    }]);
+    setSelectedAnnId(id);
+  };
+
+  const ANN_COLORS = ["#f5c518","#ffffff","#000000","#ef4444","#3b82f6","#22c55e","#a855f7","#f97316"];
+  const ANN_SIZES  = [12, 16, 20, 28, 36];
+
   const exportRef = useRef<HTMLDivElement>(null);
   const dragState = useRef<{ startX: number; startY: number; ox: number; oy: number } | null>(null);
 
@@ -681,7 +703,7 @@ function Editor() {
             /* FREE MODE — original padding-based layout */
             <div
               ref={exportRef}
-              style={{ background: bg, padding: `${padding}px` }}
+              style={{ background: bg, padding: `${padding}px`, position: "relative" }}
               className="flex items-center justify-center transition-all duration-300 min-w-[280px] min-h-[280px]"
             >
               <div className="relative overflow-hidden transition-all duration-300 flex flex-col" style={{ borderRadius: imageRadius, boxShadow: imageShadow }}>
@@ -697,6 +719,13 @@ function Editor() {
                 )}
                 {isPolaroid && <div className="bg-white" style={{ height: "80px" }} />}
               </div>
+              <AnnotationLayer
+                annotations={annotations}
+                onChange={setAnnotations}
+                selectedId={selectedAnnId}
+                onSelect={setSelectedAnnId}
+                isExporting={isExporting}
+              />
             </div>
           ) : (
             /* FIXED DIMENSION MODE — draggable image within canvas */
@@ -740,6 +769,13 @@ function Editor() {
                     </div>
                   </div>
                 )}
+                <AnnotationLayer
+                  annotations={annotations}
+                  onChange={setAnnotations}
+                  selectedId={selectedAnnId}
+                  onSelect={setSelectedAnnId}
+                  isExporting={isExporting}
+                />
               </div>
               {/* Dimension label overlay */}
               <div className="absolute bottom-2 right-2 text-[10px] px-2 py-0.5 rounded font-mono pointer-events-none" style={{ background: "rgba(0,0,0,0.5)", color: "rgba(255,255,255,0.5)" }}>
@@ -881,6 +917,125 @@ function Editor() {
               </div>
             )}
           </div>
+
+          {/* Annotations */}
+          {image && (
+            <div>
+              <h3 className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: "rgba(255,255,255,0.35)" }}>Annotations</h3>
+
+              {/* Add buttons */}
+              <div className="grid grid-cols-3 gap-2 mb-3">
+                {([
+                  { type: "text",  label: "T  Text",  icon: "T" },
+                  { type: "label", label: "◉ Label",  icon: "◉" },
+                  { type: "arrow", label: "→ Arrow",  icon: "→" },
+                ] as const).map(({ type, label }) => (
+                  <button
+                    key={type}
+                    onClick={() => addAnnotation(type)}
+                    className="py-2 rounded-lg text-xs font-semibold border transition-colors hover:border-yellow-400/40"
+                    style={{ background: "rgba(255,255,255,0.04)", borderColor: "rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.75)" }}
+                  >{label}</button>
+                ))}
+              </div>
+
+              {/* Selected annotation controls */}
+              {selectedAnn && (
+                <div className="rounded-xl p-3 mb-3 space-y-3" style={{ background: "rgba(245,197,24,0.05)", border: "1px solid rgba(245,197,24,0.15)" }}>
+                  {/* Color */}
+                  <div>
+                    <p className="text-[10px] uppercase tracking-wider mb-1.5" style={{ color: "rgba(255,255,255,0.35)" }}>Color</p>
+                    <div className="flex gap-1.5 flex-wrap">
+                      {ANN_COLORS.map(c => (
+                        <button
+                          key={c}
+                          onClick={() => setAnnotations(a => a.map(x => x.id === selectedAnnId ? { ...x, color: c } : x))}
+                          className="w-6 h-6 rounded-full border-2 transition-transform hover:scale-110"
+                          style={{ background: c, borderColor: selectedAnn.color === c ? Y : "transparent" }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Font size */}
+                  {selectedAnn.type !== "arrow" && (
+                    <div>
+                      <p className="text-[10px] uppercase tracking-wider mb-1.5" style={{ color: "rgba(255,255,255,0.35)" }}>Size</p>
+                      <div className="flex gap-1.5">
+                        {ANN_SIZES.map(s => (
+                          <button
+                            key={s}
+                            onClick={() => setAnnotations(a => a.map(x => x.id === selectedAnnId ? { ...x, fontSize: s } : x))}
+                            className="flex-1 py-1 rounded text-xs font-medium border transition-colors"
+                            style={{
+                              background: selectedAnn.fontSize === s ? "rgba(245,197,24,0.15)" : "transparent",
+                              borderColor: selectedAnn.fontSize === s ? Y : "rgba(255,255,255,0.1)",
+                              color: selectedAnn.fontSize === s ? Y : "rgba(255,255,255,0.5)",
+                            }}
+                          >{s}</button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Arrow direction */}
+                  {selectedAnn.type === "arrow" && (
+                    <div>
+                      <p className="text-[10px] uppercase tracking-wider mb-1.5" style={{ color: "rgba(255,255,255,0.35)" }}>Direction</p>
+                      <div className="grid grid-cols-4 gap-1.5">
+                        {(["up","down","left","right"] as const).map(dir => (
+                          <button
+                            key={dir}
+                            onClick={() => setAnnotations(a => a.map(x => x.id === selectedAnnId ? { ...x, arrowDir: dir } : x))}
+                            className="py-1.5 rounded text-sm border transition-colors"
+                            style={{
+                              background: selectedAnn.arrowDir === dir ? "rgba(245,197,24,0.15)" : "transparent",
+                              borderColor: selectedAnn.arrowDir === dir ? Y : "rgba(255,255,255,0.1)",
+                            }}
+                          >{{ up:"↑", down:"↓", left:"←", right:"→" }[dir]}</button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Annotation list */}
+              {annotations.length > 0 && (
+                <div className="space-y-1">
+                  {annotations.map(ann => (
+                    <div
+                      key={ann.id}
+                      onClick={() => setSelectedAnnId(ann.id)}
+                      className="flex items-center gap-2 px-2.5 py-2 rounded-lg cursor-pointer transition-colors"
+                      style={{
+                        background: selectedAnnId === ann.id ? "rgba(245,197,24,0.1)" : "rgba(255,255,255,0.03)",
+                        border: `1px solid ${selectedAnnId === ann.id ? "rgba(245,197,24,0.25)" : "rgba(255,255,255,0.07)"}`,
+                      }}
+                    >
+                      <span className="text-sm w-4 text-center flex-shrink-0" style={{ color: ann.color }}>
+                        {ann.type === "text" ? "T" : ann.type === "label" ? "◉" : "→"}
+                      </span>
+                      <span className="text-xs flex-1 truncate" style={{ color: "rgba(255,255,255,0.6)" }}>
+                        {ann.text || (ann.type === "arrow" ? `Arrow ${ann.arrowDir}` : "—")}
+                      </span>
+                      <button
+                        className="text-xs opacity-0 hover:opacity-100 transition-opacity px-1"
+                        style={{ color: "rgba(255,100,100,0.7)" }}
+                        onClick={(e) => { e.stopPropagation(); setAnnotations(a => a.filter(x => x.id !== ann.id)); if (selectedAnnId === ann.id) setSelectedAnnId(null); }}
+                      >✕</button>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {annotations.length === 0 && (
+                <p className="text-xs text-center py-3" style={{ color: "rgba(255,255,255,0.2)" }}>
+                  Add text, labels or arrows over your screenshot
+                </p>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Export Footer */}
