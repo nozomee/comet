@@ -213,6 +213,32 @@ function Landing() {
       <NavMarquee />
 
       {/* Hero */}
+      <style>{`
+        .beautiful-word {
+          color: #f5c518;
+          background: linear-gradient(90deg, #f5c518 0%, #ffe066 40%, #ffb300 60%, #f5c518 100%);
+          background-size: 200% auto;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          animation: beautiful-shimmer 3s linear infinite, beautiful-glow 2.5s ease-in-out infinite;
+          display: inline-block;
+        }
+        @keyframes beautiful-shimmer {
+          0%   { background-position: 0% center; }
+          100% { background-position: 200% center; }
+        }
+        @keyframes beautiful-glow {
+          0%, 100% {
+            filter: drop-shadow(0 0 8px rgba(245,197,24,0.5)) drop-shadow(0 0 20px rgba(245,197,24,0.25));
+            transform: scale(1);
+          }
+          50% {
+            filter: drop-shadow(0 0 16px rgba(245,197,24,0.85)) drop-shadow(0 0 40px rgba(245,197,24,0.45)) drop-shadow(0 0 60px rgba(255,180,0,0.2));
+            transform: scale(1.04);
+          }
+        }
+      `}</style>
       <section className="pt-20 pb-14 px-6 overflow-hidden relative">
         {/* Radial glow */}
         <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 80% 50% at 50% -10%, rgba(245,197,24,0.18), transparent)" }} />
@@ -264,7 +290,11 @@ function Landing() {
           </div>
           <h1 className="text-5xl md:text-6xl lg:text-7xl leading-[1.06] font-bold tracking-tight mb-5 text-white">
             Turn boring screenshots <br />
-            into <span className="font-serif italic font-normal px-1" style={{ color: Y }}>beautiful</span> visuals
+            into{" "}
+            <span className="relative inline-block font-serif italic font-normal px-1 beautiful-word">
+              beautiful
+            </span>{" "}
+            visuals
           </h1>
           <p className="text-base md:text-lg max-w-2xl mx-auto mb-3 font-light leading-relaxed" style={{ color: "rgba(255,255,255,0.6)" }}>
             Upload any screenshot and transform it into a polished, share-worthy visual in seconds. No design skills needed.
